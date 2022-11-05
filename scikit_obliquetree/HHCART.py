@@ -1,11 +1,19 @@
 from copy import deepcopy
 
 import numpy as np
+from collections import Counter
 from scipy.linalg import norm
-from sklearn.base import BaseEstimator
+from sklearn.base import ClassifierMixin
 from sklearn.decomposition import PCA
 from sklearn.linear_model import Ridge
 
+def mode(array):
+    '''
+    Calculates the mode of an array.
+    '''
+    ctr = list(Counter(array).items())
+    ctr.sort(reverse=True, key = lambda x: x[1])
+    return ctr[0][0]
 
 class HHCARTNode:
     def __init__(self, depth, labels, **kwargs):
@@ -35,7 +43,8 @@ class HHCARTNode:
     @property
     def label(self):
         if not hasattr(self, "_label"):
-            self._label = np.mean(self.labels)
+            # self._label = np.mean(self.labels)  # taking the mean -> for regression trees
+            self._label = mode(self.labels) # majority voting -> for classificaton trees
         return self._label
 
     @property
@@ -57,7 +66,7 @@ class HHCARTNode:
         return self._right_child
 
 
-class HouseHolderCART(BaseEstimator):
+class HouseHolderCART(ClassifierMixin):
     def __init__(self, impurity, segmentor, method="eig", tau=1e-4, **kwargs):
         self.impurity = impurity
         self.segmentor = segmentor
@@ -69,6 +78,24 @@ class HouseHolderCART(BaseEstimator):
         self._root = None
         self._nodes = []
 
+    def set_params(self, **params):
+        '''
+        Allow revision of hyperparameters after model construction -> for gridsearchCV
+        '''
+        for parameter, value in params.items():
+            setattr(self, parameter, value)
+        self._root = None
+        self._nodes = []
+        
+        return self
+
+    def get_params(self, deep=True):
+        '''
+        Allow estimator to be cloned by sklearn.
+        '''
+        return {"impurity": self.impurity, "segmentor": self.segmentor,
+                "max_depth": self._max_depth, "min_samples": self._min_samples}
+    
     def _terminate(self, X, y, cur_depth):
         if self._max_depth != None and cur_depth == self._max_depth:
             # maximum depth reached.

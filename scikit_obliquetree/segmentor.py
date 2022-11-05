@@ -1,8 +1,25 @@
 from abc import ABCMeta, abstractmethod
-
+from collections import Counter
 import numpy as np
 
+class Gini:
+    """
+    Gini impurity criterion
+    """ 
+    def __call__(self, left_label, right_label):
+        '''
+        `all_labels` represents all possible class labels in the dataset
+        '''
+        key_freq_left = np.array(list(Counter(left_label).values()))
+        key_freq_right = np.array(list(Counter(right_label).values()))
+        left_len, right_len = sum(key_freq_left), sum(key_freq_right)
+        total = left_len + right_len
 
+        Gini_left = 1.0 - sum ((key_freq_left / left_len) ** 2)
+        Gini_right = 1.0 - sum ((key_freq_right / right_len) ** 2)
+
+        return (left_len / float(total)) * Gini_left + (right_len / float(total)) * Gini_right
+        
 class MSE:
     """
     Mean squared error impurity criterion
@@ -50,7 +67,7 @@ class SegmentorBase:
     def __init__(self, msl=1):
         self._min_samples_leaf = msl
 
-    def __call__(self, X, y, impurity=MSE()):
+    def __call__(self, X, y, impurity=Gini()):
         """
         Parameters
         -----------
@@ -59,9 +76,8 @@ class SegmentorBase:
         The training input samples.
         y : array-like, shape = [n_samples]
         The target values.
-        impurity : object of impurity (default=MSE()).
-        The name of criterion to measure the quality of a split.
-
+        impurity : object of impurity (default=Gini()). The name of criterion 
+        to measure the quality of a split. Use MSE() for regression tree
 
         Returns
         -----------
@@ -129,3 +145,19 @@ class MeanSegmentor(SegmentorBase):
             right_i = np.nonzero(feature_values >= mean)[0]
             split_rule = (feature_i, mean)
             yield (left_i, right_i, split_rule)
+
+
+class TotalSegmentor(SegmentorBase):
+    """
+    Generates all possible axis parallel splits.
+    """
+
+    def _split_generator(self, X):
+
+        for feature_i in range(X.shape[1]):
+            feature_values = X[:, feature_i]
+            for val in feature_values:
+                left_i = np.nonzero(feature_values < val)[0]
+                right_i = np.nonzero(feature_values >= val)[0]
+                split_rule = (feature_i, val)
+                yield (left_i, right_i, split_rule)
