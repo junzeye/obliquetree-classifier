@@ -24,40 +24,7 @@ Numerous works in the machine learning domain have shown that oblique decision t
 
 
 ## 🚀 Features
-* A simple scikit-learn interface for oblique decision tree algorithms
-* A general gradient boosting estimator that can be used to improve arbitrary base estimators
-
-## Installation
-
-```bash
-pip install -U scikit-obliquetree
-```
-
-or install with `Poetry`
-
-```bash
-poetry add scikit-obliquetree
-```
-
-Then you can run
-
-```bash
-scikit-obliquetree --help
-```
-
-```bash
-scikit-obliquetree --name Roman
-```
-
-or if installed with `Poetry`:
-
-```bash
-poetry run scikit-obliquetree --help
-```
-
-```bash
-poetry run scikit-obliquetree --name Roman
-```
+* A simple scikit-learn interface for oblique classification tree algorithms
 
 ## Example
 Example of usage:
@@ -65,13 +32,12 @@ Example of usage:
 from sklearn.datasets import load_boston
 from sklearn.ensemble import BaggingRegressor
 from sklearn.model_selection import cross_val_score
-
-from scikit_obliquetree.HHCART import HouseHolderCART
-from scikit_obliquetree.segmentor import MSE, MeanSegmentor
+from HHCART import HouseHolderCART
+from segmentor import Gini, TotalSegmentor
 
 X, y = load_boston(return_X_y=True)
 reg = BaggingRegressor(
-    HouseHolderCART(MSE(), MeanSegmentor(), max_depth=3),
+    HouseHolderCART(Gini(), TotalSegmentor(), max_depth=5),
     n_estimators=100,
     n_jobs=-1,
 )
