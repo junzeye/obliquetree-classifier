@@ -51,7 +51,6 @@ print('CV Score', cross_val_score(reg, X, y))
 This project is licensed under the terms of the `Apache Software License 2.0` license. See [LICENSE](https://github.com/zhenlingcn/scikit-obliquetree/blob/master/LICENSE) for more details.
 
 ## 📃 Citation
-
 ```
 @misc{scikit-obliquetree,
   author = {ECNU},
@@ -63,6 +62,8 @@ This project is licensed under the terms of the `Apache Software License 2.0` li
 }
 ```
 
-## Credits
+## Acknowledgements
+
+The author would like to thank Github user `hengzhe-zhang` (cited above) for generously sharing the algorithm they developed for oblique regression trees, which formed the basis of the classification algorithm I hereby presented. You can refer to his repo from [here](https://github.com/zhenlingcn/scikit-obliquetree).
 
 This project was generated with [`python-package-template`](https://github.com/TezRomacH/python-package-template).
