@@ -29,19 +29,33 @@ Numerous works in the machine learning domain have shown that oblique decision t
 ## Example
 Example of usage:
 ```python
-from sklearn.datasets import load_boston
-from sklearn.ensemble import BaggingRegressor
-from sklearn.model_selection import cross_val_score
-from HHCART import HouseHolderCART
-from segmentor import Gini, TotalSegmentor
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split, StratifiedKFold, GridSearchCV, cross_val_score
+from sklearn.metrics import accuracy_score
+from HHCART import HouseHolderCART  # oblique tree classifier
+from segmentor import Gini, TotalSegmentor  # module to determine splits
+import numpy as np
+import itertools, time
 
-X, y = load_boston(return_X_y=True)
-reg = BaggingRegressor(
-    HouseHolderCART(Gini(), TotalSegmentor(), max_depth=5),
-    n_estimators=100,
-    n_jobs=-1,
-)
-print('CV Score', cross_val_score(reg, X, y))
+# Load training data - we use the Iris dataset as an example
+X, y = load_iris(return_X_y=True)
+x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state = 1)
+
+# Initialize an HHCART classifier object
+sgmtr = TotalSegmentor()
+HHTree = HouseHolderCART(impurity = Gini(), segmentor = sgmtr, max_depth = 5, 
+                                    min_samples = 4)
+# max_depth: maximum depth of the decision tree. 
+# min_samples: minimum allowed number of samples in a terminal node
+
+# Train the classifier
+HHTree.fit(x_train, y_train)
+
+# Evaluate the classifier performance
+train_score = accuracy_score(y_train, HHTree.predict(x_train))
+test_score = accuracy_score(y_test, HHTree.predict(x_test))
+print(f"train accuracy: {train_score:.00%}")
+print(f"test accuracy: {test_score:.00%}")
 ```
 
 ## 🛡 License
