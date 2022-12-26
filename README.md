@@ -1,11 +1,9 @@
-# scikit-obliquetree
+# scikit-obliquetree-classifier
 
 <div align="center">
 
-[![Build status](https://github.com/zhenlingcn/scikit-obliquetree/workflows/build/badge.svg?branch=master&event=push)](https://github.com/zhenlingcn/scikit-obliquetree/actions?query=workflow%3Abuild)
 [![Python Version](https://img.shields.io/pypi/pyversions/scikit-obliquetree.svg)](https://pypi.org/project/scikit-obliquetree/)
 [![Dependencies Status](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)](https://github.com/zhenlingcn/scikit-obliquetree/pulls?utf8=%E2%9C%93&q=is%3Apr%20author%3Aapp%2Fdependabot)
-
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Security: bandit](https://img.shields.io/badge/security-bandit-green.svg)](https://github.com/PyCQA/bandit)
 [![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/zhenlingcn/scikit-obliquetree/blob/master/.pre-commit-config.yaml)
@@ -18,16 +16,18 @@ Oblique Decision Tree in Python
 
 ## Introduction
 
-The oblique decision tree is a popular choice in the machine learning domain for improving the performance of traditional decision tree algorithms. In contrast to the traditional decision tree, which uses an axis-parallel split point to determine whether a data point should be assigned to the left or right branch of a decision tree, the oblique decision tree uses a hyper-plane based on all data point features. 
+Decision trees are a popular machine learning method that is highly interpretable. The vast majority of publicly available decision tree libraries implements an axis-parallel version of decision trees, where splits at each decsion node involve only a single feature variable. This leaves room for performance improvement because we might learn patterns in a dataset better by considering oblique decision boundaries.
 
-Numerous works in the machine learning domain have shown that oblique decision trees can achieve exceptional performance in a wide range of domains. However, there is still a lack of a package that has implemented oblique decision tree algorithms, which stymies the development of this domain. As a result, the goal of this project is to solve this problem by implementing some well-known algorithms in this domain. We hope that by doing so, these algorithms will serve as a baseline for machine learning practitioners to compare newly designed algorithms to existing algorithms.
+In comparison to axis-parallel trees, oblique decision trees partition a feature space by drawing half-spaces involving all feature variables. However, despite much research showing the exceptional performance of oblique decision trees, there is the lack of an open-source package that implements an oblique decision tree classificaton algorithm.
 
+This gap in technical infrastructure motivates us to program and publish the Python implementation of the HHCART algorithm (Wickramarachchi et al. 2016) for __classification tasks__. We hope that this repository will be a handy tool for researchers data scientists who want to leverage the increased representation power of oblique decision trees.
 
 ## 🚀 Features
-* A simple scikit-learn interface for oblique classification tree algorithms
+* A simple scikit-learn interface for oblique decision tree classifiers
+* Provides a wrapper class in `HHCART_vis.py` to allow for convenient tree visualization
 
 ## Example
-Example of usage:
+You can find a more detailed example in the Jupyter notebook `example.ipynb`.
 ```python
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split, StratifiedKFold, GridSearchCV, cross_val_score
@@ -64,8 +64,20 @@ print(f"test accuracy: {test_score:.00%}")
 
 This project is licensed under the terms of the `Apache Software License 2.0` license. See [LICENSE](https://github.com/zhenlingcn/scikit-obliquetree/blob/master/LICENSE) for more details.
 
-## 📃 Citation
+## 📃 Bibliography
 ```
+@article{WICK201612,
+title = {HHCART: An oblique decision tree},
+journal = {Computational Statistics & Data Analysis},
+volume = {96},
+pages = {12-23},
+year = {2016},
+issn = {0167-9473},
+url = {https://www.sciencedirect.com/science/article/pii/S0167947315002856},
+author = {D.C. Wickramarachchi and B.L. Robertson and M. Reale and C.J. Price and J. Brown},
+keywords = {Oblique decision tree, Data classification, Statistical learning, Householder reflection, Machine learning}
+}
+
 @misc{scikit-obliquetree,
   author = {ECNU},
   title = {Oblique Decision Tree in Python},
@@ -78,6 +90,6 @@ This project is licensed under the terms of the `Apache Software License 2.0` li
 
 ## Acknowledgements
 
-The author would like to thank Github user `hengzhe-zhang` (cited above) for generously sharing the algorithm they developed for oblique regression trees, which formed the basis of the classification algorithm I hereby presented. You can refer to his repo from [here](https://github.com/zhenlingcn/scikit-obliquetree).
+I would like to thank Github user `hengzhe-zhang` (2nd citation) for generously sharing the algorithm they developed for growing decision trees to complete regression tasks. My work generalizes his code by enriching his code to generate trees that can also complete classification tasks. You can refer to `hengzhe-zhang`'s repo from [here](https://github.com/zhenlingcn/scikit-obliquetree).
 
 This project was generated with [`python-package-template`](https://github.com/TezRomacH/python-package-template).
