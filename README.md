@@ -55,31 +55,12 @@ print(f"test accuracy: {test_score:.00%}")
 This project is licensed under the terms of the `Apache Software License 2.0` license. See [LICENSE](https://github.com/zhenlingcn/scikit-obliquetree/blob/master/LICENSE) for more details.
 
 ## 📃 Bibliography
-```
-@article{WICK201612,
-title = {HHCART: An oblique decision tree},
-journal = {Computational Statistics & Data Analysis},
-volume = {96},
-pages = {12-23},
-year = {2016},
-issn = {0167-9473},
-url = {https://www.sciencedirect.com/science/article/pii/S0167947315002856},
-author = {D.C. Wickramarachchi and B.L. Robertson and M. Reale and C.J. Price and J. Brown},
-keywords = {Oblique decision tree, Data classification, Statistical learning, Householder reflection, Machine learning}
-}
-
-@misc{scikit-obliquetree,
-  author = {ECNU},
-  title = {Oblique Decision Tree in Python},
-  year = {2021},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {\url{https://github.com/zhenlingcn/scikit-obliquetree}}
-}
-```
+1. Wickramarachchi et al., _HHCART: An oblique decision tree_, Computational Statistics & Data Analysis, Volume 96,
+2016, Pages 12-23. ([Link](https://www.sciencedirect.com/science/article/pii/S0167947315002856))
+2. Hengzhe Zhang, _Oblique Decision Tree in Python_, GitHub repository, 2021. ([Link](https://github.com/zhenlingcn/scikit-obliquetree))
 
 ## Acknowledgements
 
-I would like to thank Github user `hengzhe-zhang` (2nd citation) for generously sharing the algorithm they developed for growing decision trees to complete regression tasks. My work generalizes his code by enriching his code to generate trees that can also complete classification tasks. You can refer to `hengzhe-zhang`'s repo from [here](https://github.com/zhenlingcn/scikit-obliquetree).
+I would like to thank Github user `hengzhe-zhang` (2nd citation) for generously sharing the algorithm he developed for growing decision trees to complete regression tasks. My work generalizes his code by enriching his code to generate trees that can also perform classification tasks. You can refer to `hengzhe-zhang`'s repo from [here](https://github.com/zhenlingcn/scikit-obliquetree).
 
 This project was generated with [`python-package-template`](https://github.com/TezRomacH/python-package-template).
